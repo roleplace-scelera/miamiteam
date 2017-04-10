@@ -4,10 +4,8 @@ const Alexa = require('alexa-sdk');
 
 const APP_ID = "HotelServicesCapabilities1";  // TODO replace with your app ID (OPTIONAL).
 const SKILL_NAME = 'Hotel Services Capabilities';
-const HELP_MESSAGE = 'I can provide list of my services. I have Hotel Services, Guest Services, The Front Desk, and The Concierge. If you want to hear more details about a service please say the service name';
-const DETAIL_PROMPT = ''
-const HOTEL_SERVICES_CAPABILITIES = 'Hello';
-//const HELP_REPROMPT = 'What can I help you with?';
+const HELP_MESSAGE = 'I can list my capabillities';
+const DETAIL_PROMPT = 'Ok, I can make a service request for delivery to your room; I can tell you the times and location of hotel services; I can set a wake up call.  Do you want to here more?'
 const STOP_MESSAGE = 'Goodbye!';
 
 const handlers = {
@@ -16,20 +14,17 @@ const handlers = {
     },
     'WelcomePrompt': function()
     {	
-		this.emit(':tell', HELP_MESSAGE);
+		this.emit(':tell', DETAIL_PROMPT);
     },
 	'MoreInfo': function()
 	{
-		var speechOutput = HELP_MESSAGE;
+		var speechOutput = "I am sorry I cannot process that request at this time.  Is there another request I can make for you?";
+		
 		const service = this.event.request.intent.slots.Service.value;
-		if(service == "hotel")
-			speechOutput = "Hotel Services ";
-		else if(service == "guest")
-			speechOutput = "Guest Services";
-		else if(service == "front desk")
-			speechOutput = "The Front Desk";
-		else if(service == "concierge")
-			speechOutput = "The Concierge";
+		if(service == "yes")
+			speechOutput = "I can also request the agenda for a group to which you are associated, provide the weather and list my capabilities";
+		else if(service == "no")
+			speechOutput = "Ok, well enjoy your stay";
 		
 		this.emit(':tell', speechOutput);
 	},
