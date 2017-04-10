@@ -14,12 +14,25 @@ const handlers = {
     'LaunchRequest': function () {
         this.emit('AMAZON.HelpIntent');
     },
-    'GiveCapabilities': function()
-    {
-		
-			this.emit(':tell', HELP_MESSAGE);
-		
+    'WelcomePrompt': function()
+    {	
+		this.emit(':tell', HELP_MESSAGE);
     },
+	'MoreInfo': function()
+	{
+		var speechOutput = HELP_MESSAGE;
+		const service = this.event.request.intent.slots.Service.value;
+		if(service == "hotel")
+			speechOutput = "Hotel Services ";
+		else if(service == "guest")
+			speechOutput = "Guest Services";
+		else if(service == "front desk")
+			speechOutput = "The Front Desk";
+		else if(service == "concierge")
+			speechOutput = "The Concierge";
+		
+		this.emit(':tell', speechOutput);
+	},
     'AMAZON.HelpIntent': function () {
         const speechOutput = HELP_MESSAGE;
         const reprompt = HELP_MESSAGE;
